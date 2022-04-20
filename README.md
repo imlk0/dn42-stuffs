@@ -115,7 +115,7 @@ This service is both an **authoritative name server** and a **recursive name ser
    
    You need to generate the `zone-signing key` and `key-signing key` for each zone.
 
-   As an example, for zone 'example.dn42', run following command to generate keys `bind9/dnssec_keys` directory.
+   As an example, for zone `example.dn42`, run following command to generate keys in `bind9/dnssec_keys` directory.
 
    ```sh
    cd bind9/dnssec_keys
