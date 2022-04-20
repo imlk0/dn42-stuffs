@@ -1,0 +1,23 @@
+; imlk.dn42
+$TTL  300 ; default ttl for all RRs
+@ IN  SOA ns1.imlk.dn42. me.imlk.top. ( ; ns1.imlk.dn42 is the domain of dns server
+         2022032901     ; Serial Number, should be change any time when modify happens
+               3600     ; Refresh
+                180     ; Retry
+              86400     ; Expire
+                300 )   ; Negative Cache TTL
+;
+                        IN  NS    ns1.imlk.dn42.  ; announce the name server of current zone(domain) to be ns1.imlk.dn42
+ns1                     IN  A     172.22.96.4
+ns1                     IN  AAAA  fd42:d2aa:8a0e::4
+sjc1.us                 IN  A     172.22.96.2
+sjc1.us                 IN  AAAA  fd42:d2aa:8a0e::2
+bj2-cstnet.cn           IN  A     172.22.96.34
+bj2-cstnet.cn           IN  AAAA  fd42:d2aa:8a0e:1::2
+
+; zone-signing key
+; dnssec-keygen -a ECDSAP256SHA256 -n ZONE imlk.dn42
+$INCLUDE "/etc/bind/dnssec_keys/Kimlk.dn42.+013+61270.key"
+; key-signing key
+; dnssec-keygen -f KSK -a ECDSAP256SHA256 -n ZONE imlk.dn42
+$INCLUDE "/etc/bind/dnssec_keys/Kimlk.dn42.+013+31267.key"

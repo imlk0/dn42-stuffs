@@ -1,0 +1,20 @@
+; e.0.a.8.a.a.2.d.2.4.d.f.ip6.arpa.
+$TTL  300 ; default ttl for all RRs
+@ IN  SOA ns1.imlk.dn42. me.imlk.top. ( ; ns1.imlk.dn42 is the domain of dns server
+         2022032901     ; Serial Number, should be change any time when modify happens
+               3600     ; Refresh
+                180     ; Retry
+              86400     ; Expire
+                300 )   ; Negative Cache TTL
+;
+                        							IN  NS    ns1.imlk.dn42.  ; announce the name server of current zone(domain) to be ns1.imlk.dn42
+4.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0             IN  PTR   ns1.imlk.dn42.
+2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0             IN  PTR   sjc1.us.imlk.dn42.
+2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0             IN  PTR   bj2-cstnet.cn.imlk.dn42.
+
+; zone-signing key
+; dnssec-keygen -a ECDSAP256SHA256 -n ZONE e.0.a.8.a.a.2.d.2.4.d.f.ip6.arpa.
+$INCLUDE "/etc/bind/dnssec_keys/Ke.0.a.8.a.a.2.d.2.4.d.f.ip6.arpa.+013+32599.key"
+; key-signing key
+; dnssec-keygen -f KSK -a ECDSAP256SHA256 -n ZONE e.0.a.8.a.a.2.d.2.4.d.f.ip6.arpa.
+$INCLUDE "/etc/bind/dnssec_keys/Ke.0.a.8.a.a.2.d.2.4.d.f.ip6.arpa.+013+63894.key"

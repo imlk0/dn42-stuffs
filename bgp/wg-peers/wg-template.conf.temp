@@ -1,0 +1,15 @@
+[Interface]
+PrivateKey = <Your wireguard wireguard private-key>
+ListenPort = 21742 # 根据对方的ASN后5位决定
+Table = off # 不要自动添加路由
+# 如果使用IPV4-DN42 + IPV6-DN42：
+# PostUp = /sbin/ip addr add dev %i 172.22.96.2/32 peer <PeerIPv4>/32
+# PostUp = /sbin/ip addr add dev %i fd42:d2aa:8a0e::2/128 peer <PeerIPv6>/128
+# 如果使用IPV6-link-local：
+PostUp = /sbin/ip addr add fe80::1742/64 dev %i
+
+[Peer]
+Endpoint = sjc1.us.dn42.imlk.top:21742
+PublicKey = 34s2HSa76GP/lfFjZsh0uhJly8rUXWl2JgO47BJsj2Q=
+AllowedIPs = 172.16.0.0/12, 10.0.0.0/8, fd00::/8, fe80::/10
+# PersistentKeepalive = 10

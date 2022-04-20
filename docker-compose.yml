@@ -1,0 +1,54 @@
+version: "3.9"
+services:
+  # BGP服务
+  bgp:
+    build: ./bgp
+    volumes:
+      - ./bgp/bird2-peers/:/etc/bird/peers/:rw
+      - ./bgp/wg-peers/:/etc/wireguard/:rw
+      - ./bgp/bird.conf:/etc/bird/bird.conf:rw
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - "net.ipv4.ip_forward=1"
+      - "net.ipv6.conf.all.disable_ipv6=0"
+      - "net.ipv6.conf.all.forwarding=1" # 必须为container开启v6 forwarding，因为它默认不会继承init_net的值，参考：https://unix.stackexchange.com/questions/690999/ipv6-forwarding-doesnt-work-in-a-network-namespace
+      # 此外，如果host上使用的防火墙是 firewalld ，务必在 firewalld 中设置IPv6_rpfilter=no，否则数据包将无法被转发到别的服务
+      - "net.ipv4.conf.all.rp_filter=0" # 允许数据包去程和回程不一致的情况，这在dn42网络中非常常见，并且在存在多个RS的情况下十分重要
+      - "net.ipv4.conf.default.rp_filter=0"
+    networks:
+      dn42-net:
+        ipv4_address: <dn42 ipv4 address assigned to this service>
+        ipv6_address: <dn42 ipv6 address assigned to this service>
+    dns: 
+      - 172.20.0.53 # wildly used dns server in dn42. Or you can change this to your dns service ip address
+    ports:
+      - "21742:21742/udp" # imlk
+    restart: always
+  # dns服务
+  dns:
+    build: ./bind9
+    cap_add:
+      - NET_ADMIN
+    networks:
+      dn42-net:
+        ipv4_address: <dn42 ipv4 address assigned to this service>
+        ipv6_address: <dn42 ipv6 address assigned to this service>
+    ports:
+      - "53:53/udp"
+    environment:
+      - DN42_GATEWAY_V4=<ipv4 address of your bgp container>
+      - DN42_GATEWAY_V6=<ipv6 address of your bgp container>
+    restart: always
+
+networks:
+  default:
+  dn42-net:
+    driver: bridge
+    enable_ipv6: true
+    internal: false # 控制能否通过host访问外部网络。需要设置为false，否则docker生成的防火墙规则会阻止其余服务将数据包转发到bgp服务
+    ipam:
+      driver: default
+      config:
+        - subnet: <your dn42 ipv4 subnet>
+        - subnet: <your dn42 ipv6 subnet>

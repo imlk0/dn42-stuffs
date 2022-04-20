@@ -1,0 +1,24 @@
+# 如果对方使用extended next hop，则可以同时配置v4的protocol bgp条目，否则只需要配置v6的
+# protocol bgp dn42_4242421742_v4 from dnpeers {
+#     # 设置成我的（或者你的 Peer 的）DN42 IPv4 地址以及 ASN
+#     neighbor 172.22.96.2 as 4242421742;
+#     direct;
+#     # 在 IPv4 BGP 中禁用 IPv6 路由传递，强烈推荐保留以下内容
+#     ipv6 {
+#         import none;
+#         export none;
+#     };
+# };
+
+protocol bgp dn42_4242421742_v6 from dnpeers {
+    # 设置成我的（或者你的 Peer 的）DN42 IPV6 或者Link-local IPv6，隧道名称，以及 ASN
+    neighbor fe80::1742 % 'wg-4242421742' as 4242421742;
+    direct;
+    # 在 IPv6 BGP 中禁用 IPv4 路由传递
+    # 如对方也使用 Multiprotocol BGP（MP-BGP），则注释以下内容
+    # ipv4 {
+    #     import none;
+    #     export none;
+    # };
+};
+
