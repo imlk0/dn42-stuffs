@@ -155,4 +155,8 @@ This service is both an **authoritative name server** and a **recursive name ser
 
   This is why we need a script work to set the gateway for each container.
 
+- What is MP-BGP & extend next hop and when should I use them?
+  - Multi Protocol BGP(BP-BGP): enable to announce route information for different type of address in parallel.
+  - extend next hop: enable to use ipv6 address as next hop in ipv4 route table, and vice versa.
 
+  ![](./assets/mp-bgp-and-extend-next-hop.png)
