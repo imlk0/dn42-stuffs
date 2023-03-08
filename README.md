@@ -1,6 +1,6 @@
 # 📜dn42-stuffs
 
-This project documents an effort to deploy dn42 Route Server (and some related services) in docker containers. The purpose is to avoid duplicate configurations by describing all service in the `docker-compose.yml`. Should be suitable for those who want to get in touch with dn42 quickly and those who want to add Route Server.
+This project documents an effort to deploy dn42 Route Server (and some related services) in docker containers. The purpose is to avoid duplicate configurations by describing all service in the `docker-compose.yml`. You can also call it **Infrastructure as Code (IaC)**. Should be suitable for those who want to get in touch with dn42 quickly and those who want to add Route Server.
 
 # Services
 
